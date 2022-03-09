@@ -61,7 +61,8 @@ class Pelanggan extends CI_Controller
             'notelp' => $this->input->post('PLNohp'),
             'alamat' => $this->input->post('PLAlamat'),
             'nik' => $this->input->post('PLNik'),
-            'active' => '1'
+            'active' => '1',
+            'point' => 0
         );
 
         if ($this->pelanggan_model->create($data)) {
@@ -78,12 +79,12 @@ class Pelanggan extends CI_Controller
             foreach ($this->pelanggan_model->read()->result() as $pelanggan) {
                 if ($pelanggan->active != '0') {
                     $data[] = array(
-                        'no' => $iterasi++,
                         'kode' => $pelanggan->kode,
                         'nama' => $pelanggan->nama,
                         'alamat' => $pelanggan->alamat,
                         'telepon' => $pelanggan->notelp,
                         'nik' => $pelanggan->nik,
+                        'point' => $pelanggan->point,
                         'action' => '<button class="btn btn-sm btn-warning" onclick="edit(' . $pelanggan->id . ')"><i class="fas fa-edit"></i></button> <button class="btn btn-sm btn-danger" onclick="remove(' . $pelanggan->id . ')"><i class="fas fa-trash"></i></button>'
                     );
                 }
@@ -129,6 +130,7 @@ class Pelanggan extends CI_Controller
             'notelp' => $this->input->post('telepon'),
             'nik' => $this->input->post('nik')
         );
+
         if ($this->pelanggan_model->update($id, $data)) {
             echo json_encode('sukses');
         }

@@ -1,50 +1,3 @@
-<style type="text/css">
-    body {
-        font-family: Arail, sans-serif;
-    }
-
-    /* Formatting search box */
-    .search-box {
-        width: 300px;
-        position: relative;
-        display: inline-block;
-        font-size: 14px;
-    }
-
-    .search-box input[type="text"] {
-        height: 32px;
-        padding: 5px 10px;
-        border: 1px solid #CCCCCC;
-        font-size: 14px;
-    }
-
-    .result {
-        position: absolute;
-        z-index: 999;
-        top: 100%;
-        left: 0;
-    }
-
-    .search-box input[type="text"],
-    .result {
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    /* Formatting result items */
-    .result p {
-        margin: 0;
-        padding: 7px 10px;
-        border: 1px solid #CCCCCC;
-        border-top: none;
-        cursor: pointer;
-    }
-
-    .result p:hover {
-        background: #f2f2f2;
-    }
-</style>
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -60,49 +13,53 @@
 
     <!-- Main content -->
     <section class="content">
-        <form id="PLaddform">
+        <form id="BRGaddform">
             <div class="card-body">
+                <div class="form-row">
+                    <div class="col-4">
+                        <label for="barcode">Barcode</label>
+                        <input type="text" class="form-control" id="barcode" placeholder="Barcode" name="BRGBarcode" required>
+                    </div>
+
+                    <div class="col-4">
+                        <label>Supplier</label>
+                        <select class="form-control select2" style="width: 100%;" name="BRGSupplier">
+                            <?php foreach ($supplier as $sup) { ?>
+                                <option value="<?= $sup->kode; ?>"><?= $sup->nama; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+
+                    <div class="col-4">
+                        <label>Satuan</label>
+                        <select class="form-control select2" style="width: 100%;" name="BRGSatuan">
+                            <?php foreach ($satuan as $sat) { ?>
+                                <option value="<?= $sat->j_qty; ?>"><?= $sat->j_qty; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+ <br>
+                <div class="form-group">
+                    <label for="BRGNama">Nama Barang</label>
+                    <input type="text" class="form-control" id="BRGNama" name="BRGNama" placeholder="Nama Barang" required>
+                </div>
 
                 <div class="form-row">
-                    <div class="col-6">
-                        <label for="BRGKode">Kode Barang</label>
-                        <input type="text" class="form-control" value="<?= $kodebarang; ?>" id="BRGKode" name="BRGKode" disabled>
+                    <div class="col-4">
+                        <label for="BRGHjual">Harga Jual</label>
+                        <input type="number" class="form-control" id="BRGHjual" name="BRGHjual" placeholder="Harga Jual" required>
                     </div>
-                    <div class="col-6">
-                        <div class="search-box">
-
-                            <input type="text" id="search" autocomplete="off" name="spousename" placeholder="search spouse" />
-                            <input type="hidden" id="id" autocomplete="off" name="spouseid" placeholder="search spouse" />
-                            <input class="w3-button w3-block w3-green w3-section w3-padding" type="submit" name="access"><b>Submit</b></button>
-                            <div class="result"></div>
-                        </div>
+                    <div class="col-4">
+                        <label for="BRGHbeli">Harga Beli</label>
+                        <input type="number" class="form-control" id="BRGHbeli" name="BRGHbeli" placeholder="Harga Beli" required>
                     </div>
-                </div>
-
-
-                <div class="form-group">
-                    <label for="PLNama">Nama</label>
-                    <input type="text" class="form-control" id="PLNama" name="PLNama" placeholder="Nama" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="PLAlamat">Alamat</label>
-                    <input type="text" class="form-control" id="PLAlamat" name="PLAlamat" placeholder="Alamat" required>
-                </div>
-
-                <div class="form-row">
-                    <div class="col-6">
-                        <label for="PLNohp">Nomor Telpon</label>
-                        <input type="text" class="form-control" id="PLNohp" name="PLNohp" placeholder="Nomber Telpon" required>
-                    </div>
-                    <div class="col-6">
-                        <label for="PLNik">NIK</label>
-                        <input type="text" class="form-control" id="PLNik" name="PLNik" placeholder="NIK">
+                    <div class="col-4">
+                        <label for="BRGQty">Stok/Qty</label>
+                        <input type="number" class="form-control" id="BRGQty" name="BRGQty" placeholder="Stok/Qty" required>
                     </div>
                 </div>
             </div>
-            <!-- /.card-body -->
-
             <div class="card-footer">
                 <button type="button" onclick="addData()" class="btn btn-primary">Submit</button>
             </div>
@@ -137,16 +94,28 @@
 <script src="<?php echo base_url('assets/plugins/sweetalert2/sweetalert2.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
-
+<!-- Select2 -->
+<script src="<?= base_url(); ?>assets/plugins/select2/js/select2.full.min.js"></script>
 <script>
-    var PLreadUrl = '<?php echo base_url('pelanggan/read') ?>';
-    var PLlisturl = '<?php echo base_url('pelanggan/listpelanggan') ?>';
-    var PLaddUrl = '<?php echo base_url('pelanggan/add') ?>';
-    var PLremoveUrl = '<?php echo base_url('pelanggan/delete') ?>';
-    var PLeditUrl = '<?php echo base_url('pelanggan/edit') ?>';
-    var PLget_pelangganUrl = '<?php echo base_url('pelanggan/get_pelanggan') ?>';
+    $(function() {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+    })
 </script>
-<script src="<?php echo base_url('assets/js/pelanggan.js') ?>"></script>
+<script>
+    var BRGreadUrl = '<?php echo base_url('barang/read') ?>';
+    var BRGlisturl = '<?php echo base_url('barang/listbarang') ?>';
+    var BRGaddUrl = '<?php echo base_url('barang/add') ?>';
+    var BRGremoveUrl = '<?php echo base_url('barang/delete') ?>';
+    var BRGeditUrl = '<?php echo base_url('barang/edit') ?>';
+    var BRGget_barangUrl = '<?php echo base_url('barang/get_barang') ?>';
+</script>
+<script src="<?php echo base_url('assets/js/barang.js') ?>"></script>
 </body>
 
 </html>

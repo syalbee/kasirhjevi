@@ -12,7 +12,7 @@ class Barang_model extends CI_Model {
 
 	public function read()
 	{
-		return $this->db->get($this->table);
+		return $this->db->query("SELECT barang.*, supplier.`nama` AS supplier FROM barang JOIN supplier ON barang.`kode_supplier` = supplier.`kode` WHERE barang.`active` = '1'");
 	}
 
 	public function update($id, $data)
@@ -27,7 +27,7 @@ class Barang_model extends CI_Model {
 		return $this->db->delete($this->table);
 	}
 
-	public function getpelanggan($id)
+	public function getBarang($id)
 	{
 		$this->db->where('id', $id);
 		return $this->db->get($this->table);

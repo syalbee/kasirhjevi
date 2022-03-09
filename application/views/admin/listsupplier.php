@@ -71,7 +71,6 @@
         <input type="text" class="form-control" placeholder="Telepon" name="telepon" required>
       </div>
       <button class="btn btn-success" name="SPEdtbtn" type="button" onclick="editData()">Edit</button>
-      <button class="btn btn-danger" data-dismiss="SPmodaledit">Close</button>
     </form>
   </div>
 </div>
@@ -110,6 +109,7 @@
     var SPremoveUrl = '<?php echo base_url('supplier/delete') ?>';
     var SPeditUrl = '<?php echo base_url('supplier/edit') ?>';
     var SPget_supplierUrl = '<?php echo base_url('supplier/get_supplier') ?>';
+    var SPlisturl = '<?php echo base_url('supplier/listsupplier') ?>';
 </script>
 <script src="<?php echo base_url('assets/js/supplier.js') ?>"></script>
 </body>
